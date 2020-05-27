@@ -1,15 +1,10 @@
 # Report: Project2-Continuous-Control
 
-
-[//]: # (Image References)
-
-[image1]: https://user-images.githubusercontent.com/10624937/43851024-320ba930-9aff-11e8-8493-ee547c6af349.gif "Trained Agent"
-[image2]: https://user-images.githubusercontent.com/10624937/43851646-d899bf20-9b00-11e8-858c-29b5c2c94ccc.png "Crawler"
-
 ### Learning Algorithm
 
 Follow the instructions in `Continuous_Control.ipynb` to get started with training your own agent! 
 
+This work implemented DDPG (https://spinningup.openai.com/en/latest/algorithms/ddpg.html) algotithm to solve this continuous control problem. Two networks are utilized: one for actor and one for critic. The uniform weights inilization helps the training to converge faster.
 
 The hyperparameters used for training:
 - BUFFER_SIZE = int(1e5)  # replay buffer size
@@ -25,7 +20,11 @@ The hyperparameters used for training:
 - UPDATE_EVERY = 1        # how often to update the target network
 - LEARN_NUM = 1
 
+Because the actor (policy) network is deterministic. To consider exploitation in the training Ornstein-Uhlenbeck process is used for adding noise
 
+This algorith is off policy. So we initialize a replay buffer to store the tuples collected at each step and reuse them for training.
+
+The agent class stores two set of networks: critic and actor networks for training; a copy of them (actor_target, critic_target) to compute the loss (avoid the moving target). The weights of target networks are soft updated at every step.
 
 The expected outputs of this implement are:
 - critic network weights: `checkpoint_critic.pth`
