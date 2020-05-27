@@ -41,18 +41,17 @@ The expected outputs of this implement are:
 
 
 Recall the DQN algorithm, the main problems of having a continuous action space is 
-\begin{itemize}
-    \item how to select $a_t$ according to $\epsilon\mbox{-Greedy}(Q_{\phi})$?
-    \item how to compute $y_j =  r(s_j,a_j)+\gamma\max_{a_{j+1}}Q_{\phi'}(s_{j+1},a_{j+1})$?
-\end{itemize}
-The key problem is to compute $\max_aQ_{\phi}(s,a)$. To solve this, Deep Deterministic Policy Gradient (DDPG) \citep{lillicrap2015continuous} uses a separate network to approximate it:
-\begin{equation}
+- how to select $a_t$ according to $\epsilon\mbox{-Greedy}(Q_{\phi})$?
+- how to compute $y_j =  r(s_j,a_j)+\gamma\max_{a_{j+1}}Q_{\phi'}(s_{j+1},a_{j+1})$?
+
+The key problem is to compute $`\max_aQ_{\phi}(s,a)`$. To solve this, Deep Deterministic Policy Gradient (DDPG) (https://arxiv.org/abs/1509.02971) uses a separate network to approximate it:
+```math
     \mu_{\theta}(s)\approx\max_aQ_{\phi}(s,a)
-\end{equation}
-Some people think it's a ``deterministic'' actor-critic algorithm, because we have tow networks: one for the actor (policy), $\mu_{\theta}$, another for the critic (action value function), $Q_{\phi}(s,a)$. But the actor network is mainly used to approximate $\max_aQ_{\phi}(s,a)$ not $\pi(a|s)$ used in other actor-critic or policy gradient algorithms. We can select action according to the actor network, but it's deterministic and we need to add extra noise to consider exploration.
+```
+We can think is as a "deterministic" actor-critic algorithm, because we have two networks: one for the actor (policy), $`\mu_{\theta}`$, another for the critic (action value function), $`Q_{\phi}(s,a)`$. But the actor network is mainly used to approximate $`\max_aQ_{\phi}(s,a)`$ not $`\pi(a|s)`$ used in other actor-critic or policy gradient algorithms. We can select action according to the actor network, but it's deterministic and we need to add extra noise to consider exploration.
 
-The input dimension of actor network, $\mu_{\theta}$, equals to the state space dimension, and the output dimension of it equals to the action space dimension (output continuous values, do not need softmax). The input dimension of critic network, $Q_{\phi}$, equals to state space dimension plus action space dimension, while its output layer has only one neuron! This is different from DQN where input dimension equals to state space dimension and output dimension equals to action space dimension.
+The input dimension of actor network, $`\mu_{\theta}`$, equals to the state space dimension, and the output dimension of it equals to the action space dimension (output continuous values, do not need softmax). The input dimension of critic network, $`Q_{\phi}`$, equals to state space dimension plus action space dimension, while its output layer has only one neuron! This is different from DQN where input dimension equals to state space dimension and output dimension equals to action space dimension.
 
-The final question is how to update $\theta$. Because want to maximize $Q_{\phi}(s,\mu_{\theta}(s))$, so update $\theta$ by gradient ascent with $\nabla_{\theta}Q_{\phi}(s,\mu_{\theta}(s))=\nabla_aQ(s,a)\nabla_{\theta}\mu_{\theta}(s)$. Think it like a policy based algorithm, we want to maximize the expected return.
+The final question is how to update $\theta$. Because want to maximize $`Q_{\phi}(s,\mu_{\theta}(s))`$, so update $\theta$ by gradient ascent with $`\nabla_{\theta}Q_{\phi}(s,\mu_{\theta}(s))=\nabla_aQ(s,a)\nabla_{\theta}\mu_{\theta}(s)`$. Think it like a policy based algorithm, we want to maximize the expected return.
 
 
