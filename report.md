@@ -41,8 +41,8 @@ The expected outputs of this implement are:
 
 
 Recall the DQN algorithm, the main problems of having a continuous action space is 
-- how to select $a_t$ according to $\epsilon\mbox{-Greedy}(Q_{\phi})$?
-- how to compute $y_j =  r(s_j,a_j)+\gamma\max_{a_{j+1}}Q_{\phi'}(s_{j+1},a_{j+1})$?
+- how to select $a_t$ according to $$\epsilon\mbox{-Greedy}(Q_{\phi})$$?
+- how to compute $$y_j =  r(s_j,a_j)+\gamma\max_{a_{j+1}}Q_{\phi'}(s_{j+1},a_{j+1})$$?
 
 The key problem is to compute $`\max_aQ_{\phi}(s,a)`$. To solve this, Deep Deterministic Policy Gradient (DDPG) (https://arxiv.org/abs/1509.02971) uses a separate network to approximate it:
 ```latex
