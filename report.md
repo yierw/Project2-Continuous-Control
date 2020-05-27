@@ -45,7 +45,7 @@ Recall the DQN algorithm, the main problems of having a continuous action space 
 - how to compute $y_j =  r(s_j,a_j)+\gamma\max_{a_{j+1}}Q_{\phi'}(s_{j+1},a_{j+1})$?
 
 The key problem is to compute $`\max_aQ_{\phi}(s,a)`$. To solve this, Deep Deterministic Policy Gradient (DDPG) (https://arxiv.org/abs/1509.02971) uses a separate network to approximate it:
-```math
+```latex
     \mu_{\theta}(s)\approx\max_aQ_{\phi}(s,a)
 ```
 We can think is as a "deterministic" actor-critic algorithm, because we have two networks: one for the actor (policy), $`\mu_{\theta}`$, another for the critic (action value function), $`Q_{\phi}(s,a)`$. But the actor network is mainly used to approximate $`\max_aQ_{\phi}(s,a)`$ not $`\pi(a|s)`$ used in other actor-critic or policy gradient algorithms. We can select action according to the actor network, but it's deterministic and we need to add extra noise to consider exploration.
