@@ -11,12 +11,7 @@ We can think it as a "deterministic" actor-critic algorithm, because we have two
 
 The input dimension of actor network, ![actor], equals to the state space dimension, and the output dimension of it equals to the action space dimension (output continuous values, do not need softmax). The input dimension of critic network, ![critic], equals to state space dimension plus action space dimension, while its output layer has only one neuron! This is different from DQN where input dimension equals to state space dimension and output dimension equals to action space dimension. Details of networks are shown below:
 
-```
-def hidden_init(layer):
-    fan_in = layer.weight.data.size()[0]
-    lim = 1. / np.sqrt(fan_in)
-    return (-lim, lim)
-
+```python
 class Actor(nn.Module):
     def __init__(self, state_size, action_size, fc_units=256):
         super(Actor, self).__init__()
@@ -81,7 +76,7 @@ The expected outputs of this implement are:
 - actor network weights: `checkpoint_actor.pth`
 
 ### Plot of rewards
-![Image description](download.png)
+![Image description](rewards.png)
 
 ### Ideas for Future Work
 - implement Proximal Policy Optimization (PPO) for better performance
